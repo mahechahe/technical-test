@@ -6,16 +6,27 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import { avatar } from "../../App";
+import { DetailDescription } from "../DetailDescription/DetailDescription";
+import avatar from "../../assets/avatar.png";
+import { ModalImage } from "../ModalImage/ModalImage";
+import "./modalDetail.css";
+import { getFilmsHttp } from "../../htttp/getHttp";
 
 export const ModalDetail = ({ character, onClose }) => {
   const [titles, setTitles] = useState([]);
-  const get = (url) => fetch(url).then((response) => response.json());
 
+  /**
+   * is responsible for calling the films endpoint provided by the API. Called whenever the state of character.films changes
+   */
   useEffect(() => {
+    /**
+     * This function getFilms http extracts each title requested by the endpoint, the url is sent as a parameter
+     * @param {filmUrl} string
+     */
     const getFilms = async () => {
-      const filmsPromises = character?.films.map((filmUrl) => get(filmUrl));
+      const filmsPromises = character?.films.map((filmUrl) =>
+        getFilmsHttp(filmUrl)
+      );
       const filmsInformation = await Promise.all(filmsPromises);
       setTitles(filmsInformation);
     };
@@ -23,35 +34,10 @@ export const ModalDetail = ({ character, onClose }) => {
   }, [character?.films]);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          width: "45%",
-          height: "450px",
-          background: "#202020",
-          borderRadius: "10px",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          position: "relative",
-        }}
-      >
+    <div className="container-modal">
+      <div className="container-modal-detail">
         {!character ? (
-          <div
-            style={{
-              width: "45vw",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <div className="loading-modal-detail">
             <CircularProgress />
           </div>
         ) : (
@@ -67,34 +53,9 @@ export const ModalDetail = ({ character, onClose }) => {
             >
               <ClearOutlinedIcon style={{ color: "white" }} />
             </IconButton>
-            <div
-              style={{
-                position: "absolute",
-                width: "40%",
-                height: "125px",
-                top: "43px",
-                left: "50px",
-              }}
-            >
-              <section className="triangle">
-                <Typography color={"white"}>
-                  May the force be with you 💀
-                </Typography>
-              </section>
-            </div>
-            <figure style={{ position: "relative" }}>
-              <img
-                src="https://cdn.pixabay.com/photo/2017/07/02/09/51/star-wars-2463926_960_720.png"
-                alt=""
-                style={{
-                  width: "93%",
-                  height: "65%",
-                  position: "absolute",
-                  bottom: 0,
-                  left: "16px",
-                }}
-              />
-            </figure>
+
+            <ModalImage />
+
             <div
               style={{
                 display: "flex",
@@ -102,49 +63,14 @@ export const ModalDetail = ({ character, onClose }) => {
                 alignItems: "center",
               }}
             >
-              <div
-                style={{
-                  width: "80%",
-                  height: "90%",
-                  background: "#0a0908",
-                  borderRadius: "10px",
-                }}
-              >
-                <div
-                  style={{
-                    width: "100%",
-                    height: "60px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderBottom: "1px solid #adb5bd",
-                  }}
-                >
+              <div className="container-modal-description">
+                <div className="container-description">
                   <Typography color={"white"}>Description</Typography>
                 </div>
 
-                <div
-                  style={{
-                    width: "100%",
-                    height: "80px",
-                    borderBottom: "1px solid #adb5bd",
-                    display: "flex",
-                    alignItems: "center",
-                    paddingLeft: "10px",
-                  }}
-                >
+                <div className="container-name-description">
                   <Avatar src={avatar} />
-                  <div
-                    style={{
-                      width: "220px",
-                      height: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "flex-start",
-                      paddingLeft: "10px",
-                      flexDirection: "column",
-                    }}
-                  >
+                  <div className="container-title-description">
                     <Typography color={"white"}>{character?.name}</Typography>
                     <Typography>
                       Gener {character?.gender} - {character?.height} Height
@@ -152,103 +78,39 @@ export const ModalDetail = ({ character, onClose }) => {
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    width: "100%",
-                    height: "80px",
-                    borderBottom: "1px solid #adb5bd",
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    paddingLeft: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "80%",
-                      height: "50%",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography
-                      style={{
-                        borderLeft: "2px solid red",
-                        paddingLeft: "4px",
-                      }}
-                    >
-                      Eye Color:{" "}
-                    </Typography>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        width: "100px",
-                      }}
-                    >
-                      <Typography>{character?.eye_color} </Typography>
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      width: "80%",
-                      height: "50%",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography
-                      style={{
-                        borderLeft: "3px solid #3a0ca3",
-                        paddingLeft: "4px",
-                      }}
-                    >
-                      Hair Color:
-                    </Typography>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        width: "100px",
-                      }}
-                    >
-                      <Typography>{character?.hair_color}</Typography>
-                    </div>
-                  </div>
+                <div className="modaldetail-detail-description">
+                  <DetailDescription
+                    title="Eye Color: "
+                    data={character?.eye_color}
+                    borderColor="red"
+                  />
+                  <DetailDescription
+                    title="Hair Color: "
+                    data={character?.hair_color}
+                    borderColor="#3a0ca3"
+                  />
                 </div>
-                <div
-                  style={{
-                    width: "100%",
-                    height: "160px",
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    paddingTop: "5px",
-                  }}
-                >
+
+                <div className="modal-detail-movies">
                   <Typography>Movies</Typography>
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "160px",
-                      display: "flex",
-                      flexDirection: "column",
-                      padding: "0px 10px",
-                      gap: "2px",
-                    }}
-                  >
-                    {titles?.map((title) => (
-                      <Typography color={"white"}>
-                        {" "}
-                        <span style={{ color: "#adb5bd" }}>- </span>{" "}
-                        {title.title}
-                      </Typography>
-                    ))}
+                  <div className="modal-detail-movies-list ">
+                    {titles.length === 0 ? (
+                      <div className="loading-modal-movies">
+                        <CircularProgress />
+                      </div>
+                    ) : (
+                      <>
+                        {/* the title array is mapped and rendered, which
+                        contains each movie name received by the api */}
+                        {titles?.map((title, i) => (
+                          <Typography key={i} color={"white"}>
+                            {" "}
+                            <span style={{ color: "#adb5bd" }}>- </span>{" "}
+                            {title.title}
+                          </Typography>
+                        ))}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

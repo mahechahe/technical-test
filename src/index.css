@@ -20,7 +20,7 @@ body {
 }
 
 .triangle::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   width: 0;
@@ -30,5 +30,4 @@ body {
   border-color: #0a0908 transparent transparent transparent;
   left: 50%;
   transform: translateX(-50%) translateY(100%);
-  
 }

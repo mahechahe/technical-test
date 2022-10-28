@@ -1,4 +1,5 @@
 import React from "react";
+import logoStarWars from '../../assets/logo-starwars.png'
 
 export const Navbar = () => {
   return (
@@ -21,7 +22,7 @@ export const Navbar = () => {
         }}
       >
         <img
-          src="https://static-mh.content.disney.io/starwars/assets/navigation/sw_logo_horiz-04368052e188.png"
+          src={logoStarWars}
           alt="star-wars-logo"
         />
       </figure>
