@@ -1,0 +1,14 @@
+.modal-image-container {
+  position: absolute;
+  width: 40%;
+  height: 125px;
+  top: 43px;
+  left: 50px;
+}
+.modal-image-img {
+  width: 93%;
+  height: 65%;
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+}
