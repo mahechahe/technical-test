@@ -4,13 +4,23 @@ import {
   Avatar,
   CircularProgress,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import { avatar } from "../../App";
 
 export const ModalDetail = ({ character, onClose }) => {
-  console.log(character);
+  const [titles, setTitles] = useState([]);
+  const get = (url) => fetch(url).then((response) => response.json());
+
+  useEffect(() => {
+    const getFilms = async () => {
+      const filmsPromises = character?.films.map((filmUrl) => get(filmUrl));
+      const filmsInformation = await Promise.all(filmsPromises);
+      setTitles(filmsInformation);
+    };
+    getFilms();
+  }, [character?.films]);
 
   return (
     <div
@@ -95,7 +105,7 @@ export const ModalDetail = ({ character, onClose }) => {
               <div
                 style={{
                   width: "80%",
-                  height: "80%",
+                  height: "90%",
                   background: "#0a0908",
                   borderRadius: "10px",
                 }}
@@ -162,22 +172,23 @@ export const ModalDetail = ({ character, onClose }) => {
                       alignItems: "center",
                     }}
                   >
-                    <Typography>Eye Color: </Typography>
+                    <Typography
+                      style={{
+                        borderLeft: "2px solid red",
+                        paddingLeft: "4px",
+                      }}
+                    >
+                      Eye Color:{" "}
+                    </Typography>
                     <div
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        width: '80px'
+                        width: "100px",
                       }}
                     >
-                      <Typography>{character?.eye_color}</Typography>
-                      <RemoveRedEyeOutlinedIcon
-                        style={{
-                          background: `${character?.eye_color || "#e5383b"}`,
-                          borderRadius: "50%",
-                        }}
-                      />
+                      <Typography>{character?.eye_color} </Typography>
                     </div>
                   </div>
 
@@ -190,17 +201,54 @@ export const ModalDetail = ({ character, onClose }) => {
                       alignItems: "center",
                     }}
                   >
-                    <Typography>Hair Color</Typography>
+                    <Typography
+                      style={{
+                        borderLeft: "3px solid #3a0ca3",
+                        paddingLeft: "4px",
+                      }}
+                    >
+                      Hair Color:
+                    </Typography>
                     <div
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        width: '80px'
+                        width: "100px",
                       }}
                     >
                       <Typography>{character?.hair_color}</Typography>
                     </div>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    width: "100%",
+                    height: "160px",
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    paddingTop: "5px",
+                  }}
+                >
+                  <Typography>Movies</Typography>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "160px",
+                      display: "flex",
+                      flexDirection: "column",
+                      padding: "0px 10px",
+                      gap: "2px",
+                    }}
+                  >
+                    {titles?.map((title) => (
+                      <Typography color={"white"}>
+                        {" "}
+                        <span style={{ color: "#adb5bd" }}>- </span>{" "}
+                        {title.title}
+                      </Typography>
+                    ))}
                   </div>
                 </div>
               </div>

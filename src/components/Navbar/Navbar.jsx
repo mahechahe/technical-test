@@ -22,7 +22,7 @@ export const Navbar = () => {
       >
         <img
           src="https://static-mh.content.disney.io/starwars/assets/navigation/sw_logo_horiz-04368052e188.png"
-          alt=""
+          alt="star-wars-logo"
         />
       </figure>
     </div>
