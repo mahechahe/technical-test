@@ -1,6 +1,9 @@
-## welcome to the star wars table project.
+## Welcome to the star wars table project.
 
 API Credits: SWAPI The Star Wars API (https://swapi.dev/).
+
+Para poder correr el proyecto en tu computador debes de usar el siguiente comando en la terminal: 
+git clone https://github.com/mahechahe/technical-test.git
 
 # Getting Started with Create React App
 
